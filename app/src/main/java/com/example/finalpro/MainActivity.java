@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.w3c.dom.Text;
 
@@ -41,7 +42,12 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-    public static boolean CheckLogin(String user, String pass){
-        return user.equals("nathaniel.alvin@ti.ukdw.ac.id") && pass.equals("123456");
+    private boolean CheckLogin(String user, String pass){
+        if(user.equals("nathaniel.alvin@ti.ukdw.ac.id") && pass.equals("123456"))
+            return true;
+        else{
+            Toast.makeText(this, "Email dan Password tidak sesuai", Toast.LENGTH_SHORT).show();
+            return false;
+        }
     }
 }
