@@ -17,7 +17,7 @@ public class HomeActivity extends AppCompatActivity {
         setContentView(R.layout.home_activity);
         about = findViewById(R.id.about);
         exit = findViewById(R.id.exit);
-
+        prepare();
         about.setOnClickListener(new View.OnClickListener(){
            @Override
             public void onClick(View view){
@@ -32,6 +32,9 @@ public class HomeActivity extends AppCompatActivity {
                 finish();
             }
         });
+    }
 
+    private void prepare(){
+        this.getSupportFragmentManager().beginTransaction().add(R.id.frameexample, new HomeActivityFragment()).commit();
     }
 }

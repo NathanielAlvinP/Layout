@@ -18,6 +18,13 @@
         android:text="About"
         />
 
+    <FrameLayout
+        android:id="@+id/frameexample"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </FrameLayout>
+
     <Button
         android:id="@+id/exit"
         android:layout_width="wrap_content"
