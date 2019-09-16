@@ -26,40 +26,24 @@
         android:textAppearance="@style/TextAppearance.Widget.AppCompat.Toolbar.Title" />
 
 
-    <androidx.viewpager.widget.ViewPager
-        android:id="@+id/view_pager"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/white">
-
-        <com.google.android.material.tabs.TabLayout
-            android:id="@+id/tab_layout"
+        <androidx.viewpager.widget.ViewPager
+            android:id="@+id/view_pager"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/skyBlue"
-            app:tabIndicatorColor="@color/violet" />
-    </androidx.viewpager.widget.ViewPager>
+            android:background="@color/white">
 
-</com.google.android.material.appbar.AppBarLayout>
+            <com.google.android.material.tabs.TabLayout
+                android:id="@+id/tab_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/skyBlue"
+                app:tabIndicatorColor="@color/violet" />
+        </androidx.viewpager.widget.ViewPager>
 
-<!--    <Button-->
-<!--        android:id="@+id/about"-->
-<!--        android:gravity="bottom"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:text="About"-->
-<!--        />-->
-
-<!--    <FrameLayout-->
-<!--        android:id="@+id/frameexample"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="match_parent">-->
-
-<!--    </FrameLayout>-->
+    </com.google.android.material.appbar.AppBarLayout>
 
     <Button
         android:id="@+id/exit"
-        android:layout_alignBottom="@id/exit"
         android:layout_alignParentBottom="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

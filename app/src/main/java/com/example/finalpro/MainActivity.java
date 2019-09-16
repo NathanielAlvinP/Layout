@@ -29,6 +29,9 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view){
                 if(CheckLogin(String.valueOf(user.getText()),String.valueOf(password.getText()))){
                     Intent home = new Intent(MainActivity.this,HomeActivity.class);
+                    Bundle b = new Bundle();
+                    b.putString("username",user.getText().toString());
+                    home.putExtras(b);
                     finish();
                     startActivity(home);
                 }
