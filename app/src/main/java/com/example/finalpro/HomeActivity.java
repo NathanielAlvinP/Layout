@@ -23,23 +23,24 @@ public class HomeActivity extends AppCompatActivity {
     private Button about;
     private Button exit;
     private boolean isReceiverRegistered = false;
-    private boolean wifiConnected;
     private WifiManager wifiManager;
     @Override
-    protected void onCreate(Bundle savedInstanceState){
+
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home_activity);
         ViewPager viewpager = findViewById(R.id.view_pager);
-        viewpager.setAdapter(new PageAdapter(getSupportFragmentManager(),2));
+        viewpager.setAdapter(new PageAdapter(getSupportFragmentManager(), 2));
 
         Bundle bundle = getIntent().getExtras();
         String s = bundle.getString("username");
-        Toast.makeText(this, "Welcome, "+s, Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Welcome, " + s, Toast.LENGTH_SHORT).show();
 
         TabLayout tableLayout = findViewById(R.id.tab_layout);
         tableLayout.setupWithViewPager(viewpager);
+        //about = findViewById(R.id.about);
         exit = findViewById(R.id.exit);
-       // prepare();
+        // prepare();
 //        about.setOnClickListener(new View.OnClickListener(){
 //           @Override
 //            public void onClick(View view){
@@ -49,48 +50,40 @@ public class HomeActivity extends AppCompatActivity {
 //               startActivity(about);
 //           }
 //        });
-        exit.setOnClickListener(new View.OnClickListener(){
-            public void onClick(View view){
+        exit.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
                 finish();
             }
         });
     }
 
-//    private void prepare(){
+    //    private void prepare(){
 //        this.getSupportFragmentManager().beginTransaction().add(R.id.frameexample, new HomeActivityFragment()).commit();
 //    }
-
-    //Untuk menentukan kapan broadcast receiver tertrigger
     protected void onStart(){
         super.onStart();
         IntentFilter intentFilter = new IntentFilter(WifiManager.WIFI_STATE_CHANGED_ACTION);
-        registerReceiver(wifiStateReceiver, intentFilter);
+        registerReceiver(wifiReceiver, intentFilter);
     }
-
-    //untuk menghentikan kapan broadcast receiver akan berhenti
     protected void onStop(){
         super.onStop();
-        unregisterReceiver(wifiStateReceiver);
+        unregisterReceiver(wifiReceiver);
     }
-    private BroadcastReceiver wifiStateReceiver = new BroadcastReceiver() {
+    private BroadcastReceiver wifiReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-//            ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-//            NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
-//            if(networkInfo!=null){
-//                if(networkInfo.getType() == ConnectivityManager.TYPE_WIFI){
-//                    Toast.makeText(context, "Wifi On", Toast.LENGTH_SHORT).show();
-//                    if(wifiConnected==true){
-//                    }
-//                }else{
-//                    Toast.makeText(context, "Wifi Off", Toast.LENGTH_SHORT).show();
-//                }
-//            }
-//
-//            else{
-//                Toast.makeText(context, "Wifi On", Toast.LENGTH_SHORT).show();
-//            }
-            int wifiStateExtra = intent.getIntExtra(WifiManager.EXTRA_WIFI_STATE,WifiManager.WIFI_STATE_UNKNOWN);
+            //        ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+            //        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+            //        if (networkInfo != null) {
+            //            if (networkInfo.getType() == ConnectivityManager.TYPE_WIFI) {
+            //                Toast.makeText(context, "Wifi On", Toast.LENGTH_SHORT).show();
+            //                if (wifiConnected == true) {
+            //                }
+            //            }
+            //        } else {
+            //            Toast.makeText(context, "Wifi Off", Toast.LENGTH_SHORT).show();
+            //        }
+            int wifiStateExtra = intent.getIntExtra(WifiManager.EXTRA_WIFI_STATE, WifiManager.WIFI_STATE_UNKNOWN);
             switch(wifiStateExtra){
                 case WifiManager.WIFI_STATE_ENABLED:
                     Toast.makeText(context, "Wifi On", Toast.LENGTH_SHORT).show();
