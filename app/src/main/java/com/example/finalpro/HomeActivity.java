@@ -133,7 +133,6 @@ public class HomeActivity extends AppCompatActivity {
                     .setColor(Color.CYAN)
                     .setContentText(content)
                     .setPriority(NotificationCompat.PRIORITY_HIGH)
-                    .setAutoCancel(true)
                     .addAction(R.mipmap.ic_launcher,"Toast Wifi Status",actionIntent)
                     .build();
             notificationManagerCompat.notify(1, notification);
@@ -149,7 +148,7 @@ public class HomeActivity extends AppCompatActivity {
                     .setColor(Color.CYAN)
                     .setContentText(content)
                     .setPriority(NotificationCompat.PRIORITY_HIGH)
-                    .setAutoCancel(true)
+
                     .addAction(R.mipmap.ic_launcher,"Toast Wifi Status",actionIntent)
                     .build();
             notificationManagerCompat.notify(1, notification);
