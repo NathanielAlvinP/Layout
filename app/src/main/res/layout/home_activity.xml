@@ -14,7 +14,8 @@
         android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/skyBlue">
+        android:background="@color/skyBlue"
+        >
 
         <TextView
             android:id="@+id/title"
@@ -39,6 +40,8 @@
                 android:layout_height="wrap_content"
                 android:background="@color/skyBlue"
                 app:tabIndicatorColor="@color/violet" />
+
+
         </androidx.viewpager.widget.ViewPager>
 
     </com.google.android.material.appbar.AppBarLayout>
@@ -50,4 +53,5 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:text="Exit" />
+
 </RelativeLayout>

@@ -9,6 +9,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.wifi.WifiManager;
@@ -27,11 +28,12 @@ import androidx.viewpager.widget.ViewPager;
 import com.google.android.material.tabs.TabLayout;
 
 public class HomeActivity extends AppCompatActivity {
-    private Button about;
     private Button exit;
 
     public static final String  Wifi_Manager_ID = "wifiManager";
     private NotificationManagerCompat notificationManagerCompat;
+
+//    private WifiManager wifiManager = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
     private boolean wifiConnected;
     @Override
 
@@ -63,17 +65,18 @@ public class HomeActivity extends AppCompatActivity {
         createNotificationChannels();
         notificationManagerCompat = NotificationManagerCompat.from(this);
     }
-
     //    private void prepare(){
 //        this.getSupportFragmentManager().beginTransaction().add(R.id.frameexample, new HomeActivityFragment()).commit();
 //    }
     protected void onStart(){
         super.onStart();
+        //menentukan kapan broadcast receiver akan tertrigger
         IntentFilter intentFilter = new IntentFilter(WifiManager.WIFI_STATE_CHANGED_ACTION);
         registerReceiver(wifiReceiver, intentFilter);
     }
     protected void onStop(){
         super.onStop();
+        //menghentikan aplikasi menerima broadcast receiver
         unregisterReceiver(wifiReceiver);
     }
     private BroadcastReceiver wifiReceiver = new BroadcastReceiver() {
@@ -94,12 +97,12 @@ public class HomeActivity extends AppCompatActivity {
             switch(wifiStateExtra){
                 case WifiManager.WIFI_STATE_ENABLED:
                     wifiConnected = true;
-                    //Toast.makeText(context, "Wifi On", Toast.LENGTH_SHORT).show();
+
                     sendOnNotification();
                     break;
                 case WifiManager.WIFI_STATE_DISABLED:
                     wifiConnected = false;
-                    //Toast.makeText(context, "Wifi Off", Toast.LENGTH_SHORT).show();
+
                     sendOnNotification();
                     break;
             }
@@ -114,23 +117,44 @@ public class HomeActivity extends AppCompatActivity {
         }
     }
     public void sendOnNotification(){
-        String content;
+        String content,messageToast;
+        Intent activityIntent = new Intent(this, HomeActivity.class);
+        PendingIntent contentIntent = PendingIntent.getActivity(this,0,activityIntent, 0);
 
-//        Intent activityIntent = new Intent(this, HomeActivity.class);
-//        PendingIntent contentIntent = PendingIntent.getActivity(this,0,activityIntent, 0);
         if(wifiConnected){
             content = "Wifi is On";
+            messageToast = content;
+            Intent broadcastIntent = new Intent(this, WifiChangerReceiver.class);
+            broadcastIntent.putExtra("Wifi Changer",messageToast);
+            PendingIntent actionIntent = PendingIntent.getBroadcast(this,0, broadcastIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+            Notification notification = new NotificationCompat.Builder(this, Wifi_Manager_ID)
+                    .setSmallIcon(R.drawable.ic_wifi)
+                    .setContentTitle("Wifi Manager")
+                    .setColor(Color.CYAN)
+                    .setContentText(content)
+                    .setPriority(NotificationCompat.PRIORITY_HIGH)
+                    .setAutoCancel(true)
+                    .addAction(R.mipmap.ic_launcher,"Toast Wifi Status",actionIntent)
+                    .build();
+            notificationManagerCompat.notify(1, notification);
         }else{
             content = "Wifi is Off";
+            messageToast = content;
+            Intent broadcastIntent = new Intent(this, WifiChangerReceiver.class);
+            broadcastIntent.putExtra("Wifi Changer",messageToast);
+            PendingIntent actionIntent = PendingIntent.getBroadcast(this,0, broadcastIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+            Notification notification = new NotificationCompat.Builder(this, Wifi_Manager_ID)
+                    .setSmallIcon(R.drawable.ic_wifi)
+                    .setContentTitle("Wifi Manager")
+                    .setColor(Color.CYAN)
+                    .setContentText(content)
+                    .setPriority(NotificationCompat.PRIORITY_HIGH)
+                    .setAutoCancel(true)
+                    .addAction(R.mipmap.ic_launcher,"Toast Wifi Status",actionIntent)
+                    .build();
+            notificationManagerCompat.notify(1, notification);
         }
-        Notification notification = new NotificationCompat.Builder(this, Wifi_Manager_ID)
-                .setSmallIcon(R.drawable.ic_wifi)
-                .setContentTitle("Wifi Manager")
-                .setContentText(content)
-                .setPriority(NotificationCompat.PRIORITY_HIGH)
-//                .setContentIntent(contentIntent)
-                .build();
-        notificationManagerCompat.notify(1, notification);
+
     }
 //    protected void onResume(){
 //        super.onResume();
