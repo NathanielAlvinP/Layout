@@ -32,6 +32,10 @@ public class HomeActivity extends AppCompatActivity {
         ViewPager viewpager = findViewById(R.id.view_pager);
         viewpager.setAdapter(new PageAdapter(getSupportFragmentManager(), 2));
 
+//        Bundle bundle = getIntent().getExtras();
+//        String s = bundle.getString("username");
+//        Toast.makeText(this, "Welcome, " + s, Toast.LENGTH_SHORT).show();
+
         Bundle bundle = getIntent().getExtras();
         String s = bundle.getString("username");
         Toast.makeText(this, "Welcome, " + s, Toast.LENGTH_SHORT).show();
