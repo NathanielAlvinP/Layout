@@ -15,15 +15,16 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/skyBlue">
-    <TextView
-        android:id="@+id/title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:minHeight="?actionBarSize"
-        android:textAlignment="gravity"
-        android:text="Application"
-        android:textAppearance="@style/TextAppearance.Widget.AppCompat.Toolbar.Title" />
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:minHeight="?actionBarSize"
+            android:text="Application"
+            android:textAlignment="gravity"
+            android:textAppearance="@style/TextAppearance.Widget.AppCompat.Toolbar.Title" />
 
 
         <androidx.viewpager.widget.ViewPager
