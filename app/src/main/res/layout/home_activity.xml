@@ -16,7 +16,27 @@
         android:layout_height="wrap_content"
         android:background="@color/skyBlue"
         >
+        <Button
+            android:id="@+id/exit"
+            android:layout_alignParentBottom="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="Exit" />
 
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="scheduleJob"
+            android:text="Schedule Job" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:onClick="cancelJob"
+            android:text="Cancel Job" />
         <TextView
             android:id="@+id/title"
             android:layout_width="match_parent"
@@ -46,12 +66,5 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <Button
-        android:id="@+id/exit"
-        android:layout_alignParentBottom="true"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:text="Exit" />
 
 </RelativeLayout>

@@ -5,16 +5,18 @@ import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.app.job.JobInfo;
+import android.app.job.JobScheduler;
 import android.content.BroadcastReceiver;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Color;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -29,7 +31,7 @@ import com.google.android.material.tabs.TabLayout;
 
 public class HomeActivity extends AppCompatActivity {
     private Button exit;
-
+    private static final String TAG = "MainActivity";
     public static final String  Wifi_Manager_ID = "wifiManager";
     private NotificationManagerCompat notificationManagerCompat;
 
@@ -65,9 +67,7 @@ public class HomeActivity extends AppCompatActivity {
         createNotificationChannels();
         notificationManagerCompat = NotificationManagerCompat.from(this);
     }
-    //    private void prepare(){
-//        this.getSupportFragmentManager().beginTransaction().add(R.id.frameexample, new HomeActivityFragment()).commit();
-//    }
+
     protected void onStart(){
         super.onStart();
         //menentukan kapan broadcast receiver akan tertrigger
@@ -82,22 +82,10 @@ public class HomeActivity extends AppCompatActivity {
     private BroadcastReceiver wifiReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            //        ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-            //        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
-            //        if (networkInfo != null) {
-            //            if (networkInfo.getType() == ConnectivityManager.TYPE_WIFI) {
-            //                Toast.makeText(context, "Wifi On", Toast.LENGTH_SHORT).show();
-            //                if (wifiConnected == true) {
-            //                }
-            //            }
-            //        } else {
-            //            Toast.makeText(context, "Wifi Off", Toast.LENGTH_SHORT).show();
-            //        }
             int wifiStateExtra = intent.getIntExtra(WifiManager.EXTRA_WIFI_STATE, WifiManager.WIFI_STATE_UNKNOWN);
             switch(wifiStateExtra){
                 case WifiManager.WIFI_STATE_ENABLED:
                     wifiConnected = true;
-
                     sendOnNotification();
                     break;
                 case WifiManager.WIFI_STATE_DISABLED:
@@ -169,4 +157,27 @@ public class HomeActivity extends AppCompatActivity {
 //            registerReceiver(receiver, new IntentFilter("android.net.wifi.STATE_CHANGE"));
 //        }
 //    }
+    public void scheduleJob(View v) {
+        ComponentName componentName = new ComponentName(this, MyJobService.class);
+        JobInfo info = new JobInfo.Builder(123, componentName)
+
+                //.setRequiredNetworkType(JobInfo.NETWORK_TYPE_UNMETERED)
+                .setPersisted(true)
+                .setPeriodic(15 * 60 * 1000)
+                .build();
+
+        JobScheduler scheduler = (JobScheduler) getSystemService(JOB_SCHEDULER_SERVICE);
+        int resultCode = scheduler.schedule(info);
+        if (resultCode == JobScheduler.RESULT_SUCCESS) {
+            Log.d(TAG, "Job scheduled");
+        } else {
+            Log.d(TAG, "Job scheduling failed");
+        }
+    }
+
+    public void cancelJob(View v) {
+        JobScheduler scheduler = (JobScheduler) getSystemService(JOB_SCHEDULER_SERVICE);
+        scheduler.cancel(123);
+        Log.d(TAG, "Job cancelled");
+    }
 }
