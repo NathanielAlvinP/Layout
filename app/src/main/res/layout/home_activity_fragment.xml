@@ -4,18 +4,23 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-  <TextView
-      android:layout_width="match_parent"
-      android:layout_height="match_parent"
-      android:text="This is Home"
-      android:gravity="center"
-      android:layout_marginTop="50dp"
-      android:layout_gravity="center">
+<!--  <TextView-->
+<!--      android:layout_width="match_parent"-->
+<!--      android:layout_height="match_parent"-->
+<!--      android:text="This is Home"-->
+<!--      android:gravity="center"-->
+<!--      android:layout_marginTop="50dp"-->
+<!--      android:layout_gravity="center">-->
 
-  </TextView>
-  <TextView
-      android:id="@+id/email"
+<!--  </TextView>-->
+<!--  <TextView-->
+<!--      android:id="@+id/email"-->
+<!--      android:layout_width="match_parent"-->
+<!--      android:layout_height="wrap_content"-->
+<!--      />-->
+  <androidx.recyclerview.widget.RecyclerView
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
-      />
+      android:id="@+id/film_recycleview"
+      ></androidx.recyclerview.widget.RecyclerView>
 </LinearLayout>
