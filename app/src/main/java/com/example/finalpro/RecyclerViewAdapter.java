@@ -47,7 +47,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
         public MyViewHolder(View filmView){
             super(filmView);
-
             judul = (TextView) filmView.findViewById(R.id.film_judul);
             sutradara = (TextView) filmView.findViewById(R.id.film_sutradara);
             poster = (ImageView) filmView.findViewById(R.id.film_gambar);

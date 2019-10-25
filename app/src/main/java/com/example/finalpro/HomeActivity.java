@@ -45,7 +45,7 @@ public class HomeActivity extends AppCompatActivity {
 
         //ViewPager untuk slide
         ViewPager viewpager = findViewById(R.id.view_pager);
-        viewpager.setAdapter(new PageAdapter(getSupportFragmentManager(), 2));
+        viewpager.setAdapter(new PageAdapter(getSupportFragmentManager(), 3));
 
 
         //Bundle Retrieve

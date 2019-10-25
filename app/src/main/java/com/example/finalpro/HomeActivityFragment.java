@@ -29,6 +29,7 @@ public class HomeActivityFragment extends Fragment {
         RecyclerViewAdapter recyclerAdapter = new RecyclerViewAdapter(getContext(),listFilm);
         myrecyclerview.setLayoutManager(new LinearLayoutManager(getActivity()));
         myrecyclerview.setAdapter(recyclerAdapter);
+
         return v;
     }
 

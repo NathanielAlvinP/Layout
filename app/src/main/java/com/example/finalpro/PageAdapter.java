@@ -3,7 +3,6 @@ package com.example.finalpro;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
-import androidx.fragment.app.FragmentStatePagerAdapter;
 
 public class PageAdapter extends FragmentPagerAdapter {
     int numberOfTabs;
@@ -13,7 +12,7 @@ public class PageAdapter extends FragmentPagerAdapter {
         super(fm);
         this.numberOfTabs = noOfTabs;
         childFragments = new Fragment[]{
-                new HomeActivityFragment(),new AboutActivity()
+                new HomeActivityFragment(),new AboutActivity(), new MahasiswaActivityFragment()
         };
     }
 
@@ -30,11 +29,13 @@ public class PageAdapter extends FragmentPagerAdapter {
 
     @Override
     public CharSequence getPageTitle(int position){
-        String title;
+        String title = null;
         if(position == 0){
             title = "Home";
-        }else{
+        }else if(position==1){
             title = "About";
+        }else if(position==2){
+            title = "Mahasiswa";
         }
         return title;
     }
