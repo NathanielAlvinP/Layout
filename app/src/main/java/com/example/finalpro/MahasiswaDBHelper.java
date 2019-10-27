@@ -7,7 +7,7 @@ import com.example.finalpro.MahasiswaContract.*;
 import androidx.annotation.Nullable;
 
 public class MahasiswaDBHelper extends SQLiteOpenHelper {
-    public static final String DATABASE_NAME = "mhs.db";
+    public static final String DATABASE_NAME = "dataMahasiswa.db";
     public static final int DATABASE_VERSION = 1;
 
     public MahasiswaDBHelper(@Nullable Context context) {
@@ -16,15 +16,17 @@ public class MahasiswaDBHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        final String SQL_CREATE_MAHASISWA_TABLE = "create table "+MahasiswaEntry.TABLE_NAME+"("
-                +MahasiswaEntry.COLUMN_NIM+" char(8) not null primary key, "
-                +MahasiswaEntry.COLUMN_NAMA+" TEXT not null, "
-                +MahasiswaEntry.COLUMN_EMAIL+" TEXT not null" + ");";
+        final String SQL_CREATE_MAHASISWA_TABLE = "create table " +
+                MahasiswaEntry.TABLE_NAME + " (" +
+                MahasiswaEntry.COLUMN_NIM + " TEXT not null primary key, " +
+                MahasiswaEntry.COLUMN_NAMA + " TEXT not null, " +
+                MahasiswaEntry.COLUMN_NO_HP +" TEXT not null )";
         db.execSQL(SQL_CREATE_MAHASISWA_TABLE);
     }
 
     @Override
-    public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
-
+    public void onUpgrade(SQLiteDatabase sqLiteDatabase, int oldVersion, int newVersion) {
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + MahasiswaEntry.COLUMN_NIM);
+        onCreate(sqLiteDatabase);
     }
 }

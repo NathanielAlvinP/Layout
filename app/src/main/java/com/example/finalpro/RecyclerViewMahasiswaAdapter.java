@@ -5,18 +5,13 @@ import android.database.Cursor;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.List;
-
 public class RecyclerViewMahasiswaAdapter extends RecyclerView.Adapter<RecyclerViewMahasiswaAdapter.MyViewHolder>  {
     Context context;
-    //List<Mahasiswa> data;
     Cursor cursor;
     public RecyclerViewMahasiswaAdapter(Context context, Cursor cursor){
         this.context = context;
@@ -32,46 +27,42 @@ public class RecyclerViewMahasiswaAdapter extends RecyclerView.Adapter<RecyclerV
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RecyclerViewMahasiswaAdapter.MyViewHolder holder, int position) {
-        if(cursor.move(position)){
+    public void onBindViewHolder(MyViewHolder holder, int position) {
+        if(!cursor.moveToPosition(position)){
             return;
         }
-        String NIM = cursor.getString(cursor.getColumnIndex(MahasiswaContract.MahasiswaEntry.COLUMN_NIM));
-        String NAMA = cursor.getString(cursor.getColumnIndex(MahasiswaContract.MahasiswaEntry.COLUMN_NAMA));
-        String EMAIL = cursor.getString(cursor.getColumnIndex(MahasiswaContract.MahasiswaEntry.COLUMN_EMAIL));
-
-        holder.nim.setText(NIM);
-        holder.nama.setText(NAMA);
-        holder.email.setText(EMAIL);
+        holder.NIM_MHS.setText(cursor.getString(cursor.getColumnIndex(MahasiswaContract.MahasiswaEntry.COLUMN_NIM)));
+        holder.NAMA_MHS.setText(cursor.getString(cursor.getColumnIndex(MahasiswaContract.MahasiswaEntry.COLUMN_NAMA)));
+        holder.NOHP_MHS.setText(cursor.getString(cursor.getColumnIndex(MahasiswaContract.MahasiswaEntry.COLUMN_NO_HP)));
     }
 
     @Override
     public int getItemCount() {
-        return 0;
+        return cursor.getCount();
     }
 
 
     public static class MyViewHolder extends RecyclerView.ViewHolder{
-        private TextView nim;
-        private TextView nama;
-        private TextView email;
+        private TextView NIM_MHS;
+        private TextView NAMA_MHS;
+        private TextView NOHP_MHS;
 
         public MyViewHolder(View mahasiswaView){
             super(mahasiswaView);
-            nim = (TextView) mahasiswaView.findViewById(R.id.nim);
-            nama = (TextView) mahasiswaView.findViewById(R.id.nama);
-            email = (TextView) mahasiswaView.findViewById(R.id.emailmahasiswa);
+            NIM_MHS = (TextView) mahasiswaView.findViewById(R.id.nimmahasiswa);
+            NAMA_MHS = (TextView) mahasiswaView.findViewById(R.id.namamahasiswa);
+            NOHP_MHS = (TextView) mahasiswaView.findViewById(R.id.emailmahasiswa);
 
         }
     }
     public void swapCursor(Cursor cursor){
-        if(cursor!=null){
+        if(this.cursor!=null){
             this.cursor.close();
         }
         this.cursor = cursor;
 
         if(cursor!=null){
-            Toast.makeText(context, "Changed", Toast.LENGTH_SHORT).show();
+            notifyDataSetChanged();
         }
     }
 }

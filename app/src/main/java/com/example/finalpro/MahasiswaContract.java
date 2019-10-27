@@ -9,6 +9,6 @@ public class MahasiswaContract {
         public static final String TABLE_NAME = "Mahasiswa";
         public static final String COLUMN_NIM = "nim";
         public static final String COLUMN_NAMA = "nama";
-        public static final String COLUMN_EMAIL = "email";
+        public static final String COLUMN_NO_HP = "nohp";
     }
 }
