@@ -51,7 +51,7 @@ public class RecyclerViewMahasiswaAdapter extends RecyclerView.Adapter<RecyclerV
             super(mahasiswaView);
             NIM_MHS = (TextView) mahasiswaView.findViewById(R.id.nimmahasiswa);
             NAMA_MHS = (TextView) mahasiswaView.findViewById(R.id.namamahasiswa);
-            NOHP_MHS = (TextView) mahasiswaView.findViewById(R.id.emailmahasiswa);
+            NOHP_MHS = (TextView) mahasiswaView.findViewById(R.id.nohpmahasiswa);
 
         }
     }

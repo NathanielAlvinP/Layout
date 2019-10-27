@@ -3,7 +3,6 @@ package com.example.finalpro;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -41,7 +40,7 @@ public class MahasiswaActivityFragment extends Fragment {
 
                 nim = (EditText) v.findViewById(R.id.inputnimmhs);
                 nama = (EditText) v.findViewById(R.id.inputnamamhs);
-                email = (EditText) v.findViewById(R.id.inputemailmhs);
+                email = (EditText) v.findViewById(R.id.inputnohpmhs);
 
                 if (nim.getText().toString().trim().length() == 0 &&
                 nama.getText().toString().trim().length() == 0 &&
