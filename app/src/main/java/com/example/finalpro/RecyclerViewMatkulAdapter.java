@@ -10,24 +10,36 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
-public class RecyclerViewMatkulAdapter extends FirestoreRecyclerAdapter<Matakuliah, RecyclerViewMatkulAdapter.MatkulHolder> {
+import com.google.firebase.firestore.FirebaseFirestore;
 
-    public RecyclerViewMatkulAdapter(@NonNull FirestoreRecyclerOptions<Matakuliah> options) {
-        super(options);
+import java.util.List;
+
+public class RecyclerViewMatkulAdapter extends RecyclerView.Adapter<RecyclerViewMatkulAdapter.MatkulHolder> {
+    private List<Matakuliah> matkul;
+    private FirebaseFirestore db;
+    public RecyclerViewMatkulAdapter(List<Matakuliah> matkul) {
+        this.matkul = matkul;
     }
 
-    @Override
-    protected void onBindViewHolder(@NonNull MatkulHolder matkulHolder, int i, @NonNull Matakuliah matakuliah) {
-            matkulHolder.namaMatkul.setText(matakuliah.getNamaMatakuliah());
-            matkulHolder.sks.setText(String.valueOf(matakuliah.getSks()));
-            matkulHolder.namaDosen.setText(matakuliah.getNamaDosen());
-    }
 
     @NonNull
     @Override
     public MatkulHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.datamatakuliah_activity,parent,false);
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.datamatakuliah_recycler,parent,false);
+        db = FirebaseFirestore.getInstance();
         return new MatkulHolder(v);
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull MatkulHolder holder, int position) {
+        holder.namaMatkul.setText(matkul.get(position).getNamaMatakuliah());
+        holder.sks.setText("Sks: "+Integer.toString(matkul.get(position).getSks()));
+        holder.namaDosen.setText("Dosen: "+matkul.get(position).getNamaDosen());
+    }
+
+    @Override
+    public int getItemCount() {
+        return matkul.size();
     }
 
     class MatkulHolder extends RecyclerView.ViewHolder{
@@ -42,5 +54,7 @@ public class RecyclerViewMatkulAdapter extends FirestoreRecyclerAdapter<Matakuli
         }
 
     }
+
+
 
 }

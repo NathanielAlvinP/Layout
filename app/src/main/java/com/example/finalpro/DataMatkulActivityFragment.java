@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -14,11 +15,19 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.android.gms.tasks.OnCanceledListener;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+
+import java.time.Clock;
+import java.util.ArrayList;
 
 public class DataMatkulActivityFragment extends Fragment {
     View v;
@@ -27,7 +36,6 @@ public class DataMatkulActivityFragment extends Fragment {
     private Button insertButton;
 
     private FirebaseFirestore firestoreDB = FirebaseFirestore.getInstance();
-    private CollectionReference ref = firestoreDB.collection("DaftarMatakuliah");
 
     private RecyclerViewMatkulAdapter adapter;
     
@@ -36,27 +44,38 @@ public class DataMatkulActivityFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreateView(inflater,container,savedInstanceState);
         v = inflater.inflate(R.layout.datamatakuliah_activity,container,false);
-
-        Query query = ref.orderBy("namaMatakuliah",Query.Direction.DESCENDING);
-        FirestoreRecyclerOptions<Matakuliah> options = new FirestoreRecyclerOptions.Builder<Matakuliah>()
-                .setQuery(query, Matakuliah.class)
-                .build();
-        adapter = new RecyclerViewMatkulAdapter(options);
-
-
         recyclerView = (RecyclerView) v.findViewById(R.id.matakuliah_recyclerview);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        recyclerView.setAdapter(adapter);
 
+        namaMatkul = v.findViewById(R.id.inputmatkul);
+        sks = v.findViewById(R.id.inputsks);
+        namaDosen = v.findViewById(R.id.inputdosen);
 
+        final ArrayList<Matakuliah> matkul = new ArrayList();
+        Task<QuerySnapshot> docRef = firestoreDB.collection("DaftarMatakuliah").get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>(){
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            if(task.isSuccessful()){
+                                for(QueryDocumentSnapshot doc : task.getResult()){
+                                    Matakuliah mtk = new Matakuliah();
+                                    mtk.setNamaMatakuliah(doc.get("namaMatakuliah").toString());
+                                    mtk.setSks(((Long) doc.get("sks")).intValue());
+                                    mtk.setNamaDosen(doc.get("namaDosen").toString());
+                                    matkul.add(mtk);
+                                }
+                                recyclerView.setHasFixedSize(true);
+                                recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+                                adapter = new RecyclerViewMatkulAdapter(matkul);
+                                recyclerView.setAdapter(adapter);
+                            }else{
+                                System.out.println("gagal");
+                            }
+                        }
+                });
         insertButton = v.findViewById(R.id.insertMatkul);
         insertButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-                namaMatkul = v.findViewById(R.id.inputmatkul);
-                sks = v.findViewById(R.id.inputsks);
-                namaDosen = v.findViewById(R.id.inputdosen);
                 if(namaMatkul.getText().toString().isEmpty()){
                     namaMatkul.setError("Masukan nama mata kuliah");
                     namaMatkul.requestFocus();
