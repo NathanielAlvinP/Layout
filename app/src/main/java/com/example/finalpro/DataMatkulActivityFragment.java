@@ -50,28 +50,8 @@ public class DataMatkulActivityFragment extends Fragment {
         sks = v.findViewById(R.id.inputsks);
         namaDosen = v.findViewById(R.id.inputdosen);
 
-        final ArrayList<Matakuliah> matkul = new ArrayList();
-        Task<QuerySnapshot> docRef = firestoreDB.collection("DaftarMatakuliah").get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>(){
-                        @Override
-                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                            if(task.isSuccessful()){
-                                for(QueryDocumentSnapshot doc : task.getResult()){
-                                    Matakuliah mtk = new Matakuliah();
-                                    mtk.setNamaMatakuliah(doc.get("namaMatakuliah").toString());
-                                    mtk.setSks(((Long) doc.get("sks")).intValue());
-                                    mtk.setNamaDosen(doc.get("namaDosen").toString());
-                                    matkul.add(mtk);
-                                }
-                                recyclerView.setHasFixedSize(true);
-                                recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-                                adapter = new RecyclerViewMatkulAdapter(matkul);
-                                recyclerView.setAdapter(adapter);
-                            }else{
-                                System.out.println("gagal");
-                            }
-                        }
-                });
+
+        tampilkanMatkul();
         insertButton = v.findViewById(R.id.insertMatkul);
         insertButton.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -96,7 +76,7 @@ public class DataMatkulActivityFragment extends Fragment {
         namaMatkul = v.findViewById(R.id.inputmatkul);
         sks = v.findViewById(R.id.inputsks);
         namaDosen = v.findViewById(R.id.inputdosen);
-        Matakuliah matkul = new Matakuliah(namaMatkul.getText().toString(),Integer.parseInt(sks.getText().toString()), namaDosen.getText().toString());
+        final Matakuliah matkul = new Matakuliah(namaMatkul.getText().toString(),Integer.parseInt(sks.getText().toString()), namaDosen.getText().toString());
         firestoreDB.collection("DaftarMatakuliah").document().set(matkul).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
@@ -110,6 +90,31 @@ public class DataMatkulActivityFragment extends Fragment {
                 namaMatkul.setError("GAGAL UPLOAD");
             }
         });
+        tampilkanMatkul();
     }
+    public void tampilkanMatkul(){
+        final ArrayList<Matakuliah> matkul = new ArrayList();
+        Task<QuerySnapshot> docRef = firestoreDB.collection("DaftarMatakuliah").get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>(){
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if(task.isSuccessful()){
+                            for(QueryDocumentSnapshot doc : task.getResult()){
+                                Matakuliah mtk = new Matakuliah();
+                                mtk.setNamaMatakuliah(doc.get("namaMatakuliah").toString());
+                                mtk.setSks(((Long) doc.get("sks")).intValue());
+                                mtk.setNamaDosen(doc.get("namaDosen").toString());
+                                matkul.add(mtk);
+                            }
+                            recyclerView.setHasFixedSize(true);
+                            recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+                            adapter = new RecyclerViewMatkulAdapter(matkul);
+                            recyclerView.setAdapter(adapter);
+                        }else{
+                            System.out.println("gagal");
+                        }
+                    }
 
+                });
+    }
 }
