@@ -12,7 +12,10 @@ public class PageAdapter extends FragmentPagerAdapter {
         super(fm);
         this.numberOfTabs = noOfTabs;
         childFragments = new Fragment[]{
-                new HomeActivityFragment(),new AboutActivity(), new MahasiswaActivityFragment()
+                new HomeActivityFragment(),
+                new AboutActivity(),
+                new MahasiswaActivityFragment(),
+                new DataMatkulActivityFragment()
         };
     }
 
@@ -36,6 +39,8 @@ public class PageAdapter extends FragmentPagerAdapter {
             title = "About";
         }else if(position==2){
             title = "Mahasiswa";
+        }else if(position==3){
+            title = "Matakuliah";
         }
         return title;
     }

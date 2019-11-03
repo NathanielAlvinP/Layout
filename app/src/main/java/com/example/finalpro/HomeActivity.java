@@ -1,6 +1,7 @@
 package com.example.finalpro;
 
 
+import android.app.DownloadManager;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -28,6 +29,7 @@ import androidx.core.app.NotificationManagerCompat;
 import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.tabs.TabLayout;
+import com.google.firebase.database.Query;
 
 public class HomeActivity extends AppCompatActivity {
     private Button exit;
@@ -45,7 +47,7 @@ public class HomeActivity extends AppCompatActivity {
 
         //ViewPager untuk slide
         ViewPager viewpager = findViewById(R.id.view_pager);
-        viewpager.setAdapter(new PageAdapter(getSupportFragmentManager(), 3));
+        viewpager.setAdapter(new PageAdapter(getSupportFragmentManager(), 4));
 
 
         //Bundle Retrieve
